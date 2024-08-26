@@ -1,0 +1,85 @@
+plugins {
+    id("groovy")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.0.2"
+    id("io.micronaut.test-resources") version "4.0.2"
+    id("io.micronaut.aot") version "4.0.2"
+}
+
+version = "0.1"
+group = "com.example"
+
+repositories {
+    maven {
+        url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        mavenContent { snapshotsOnly() }
+    }
+    mavenCentral()
+}
+
+configurations {
+    driver
+}
+
+dependencies {
+    implementation("io.micronaut.groovy:micronaut-runtime-groovy")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    //implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    compileOnly("io.micronaut.serde:micronaut-serde-processor")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    //runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
+
+    testImplementation("io.micronaut:micronaut-http-client")
+    implementation ("io.micronaut.reactor:micronaut-reactor-http-client")
+
+    driver group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.1'
+}
+
+
+
+
+String getMariadbUrl() {
+    project.hasProperty("mariadbUrl") ? project.mariadbUrl : 'localhost:3306'
+}
+
+String DB_URL = "jdbc:mariadb://$mariadbUrl/?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+String DB_DRIVER = 'org.mariadb.jdbc.Driver'
+String TEST_DB_USER = "grails"
+Properties DB_PROPS = [user: TEST_DB_USER, password: TEST_DB_USER, allowMultiQueries: 'true'] as Properties
+
+
+
+application {
+    mainClass.set("com.example.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("tomcat")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
+    testResources {
+        additionalModules.add("jdbc-mssql")
+    }
+    aot {
+        // Please review carefully the optimizations enabled below
+        // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+    }
+}
+
+
+
