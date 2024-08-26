@@ -1,33 +1,25 @@
-## Micronaut 4.0.2 Documentation
+## Running Tests
 
-- [User Guide](https://docs.micronaut.io/4.0.2/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.0.2/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.0.2/guide/configurationreference.html)
-- [Micronaut Guides](https://guides.micronaut.io/index.html)
+To generate the error, run the `com.example.TestGetSpec` test class.
 
----
+## Error message
+The following error message is coming from the cleanupSpec() function.
 
-- [Shadow Gradle Plugin](https://plugins.gradle.org/plugin/com.github.johnrengelman.shadow)
-- [Micronaut Gradle Plugin documentation](https://micronaut-projects.github.io/micronaut-gradle-plugin/latest/)
-
-## Feature test-resources documentation
-
-- [Micronaut Test Resources documentation](https://micronaut-projects.github.io/micronaut-test-resources/latest/guide/)
-
-## Feature serialization-jackson documentation
-
-- [Micronaut Serialization Jackson Core documentation](https://micronaut-projects.github.io/micronaut-serialization/latest/guide/)
-
-## Feature micronaut-aot documentation
-
-- [Micronaut AOT documentation](https://micronaut-projects.github.io/micronaut-aot/latest/guide/)
-
-## Feature tomcat-server documentation
-
-- [Micronaut Tomcat Server documentation](https://micronaut-projects.github.io/micronaut-servlet/1.0.x/guide/index.html#tomcat)
-
-## Feature jdbc-hikari documentation
-
-- [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
-
-
+Connect Error: Cannot send HTTPS request. SSL is disabled
+io.micronaut.http.client.exceptions.HttpClientException: Connect Error: Cannot send HTTPS request. SSL is disabled
+    at app//io.micronaut.http.client.netty.ConnectionManager$Pool.onNewConnectionFailure(ConnectionManager.java:986)
+    at app//io.micronaut.http.client.netty.PoolResizer.doSomeWork(PoolResizer.java:157)
+    at app//io.micronaut.http.client.netty.PoolResizer.dirty(PoolResizer.java:77)
+    at app//io.micronaut.http.client.netty.PoolResizer.addPendingRequest(PoolResizer.java:233)
+    at app//io.micronaut.http.client.netty.ConnectionManager$Pool.acquire(ConnectionManager.java:965)
+    at app//io.micronaut.http.client.netty.ConnectionManager.connect(ConnectionManager.java:430)
+    at app//io.micronaut.http.client.netty.DefaultHttpClient.exchangeImpl(DefaultHttpClient.java:1113)
+    at app//io.micronaut.http.client.netty.DefaultHttpClient.lambda$exchange$8(DefaultHttpClient.java:811)
+    at app//reactor.core.publisher.FluxFlatMap.trySubscribeScalarMap(FluxFlatMap.java:152)
+    at app//reactor.core.publisher.FluxSwitchMapNoPrefetch.subscribeOrReturn(FluxSwitchMapNoPrefetch.java:61)
+    at app//reactor.core.publisher.Flux.subscribe(Flux.java:8759)
+    at app//reactor.core.publisher.Flux.blockFirst(Flux.java:2703)
+    at app//io.micronaut.http.client.netty.DefaultHttpClient$1.exchange(DefaultHttpClient.java:547)
+    at app//io.micronaut.http.client.BlockingHttpClient.exchange(BlockingHttpClient.java:77)
+    at app//io.micronaut.http.client.BlockingHttpClient.exchange(BlockingHttpClient.java:106)
+    at app//com.example.TestGetSpec.cleanupSpec(TestGETSpec.groovy:30)
